@@ -60,7 +60,7 @@ def facebook_login_callback(request):
         'code': request.GET['code'] if 'code' in request.GET else ''
     }
     if not params['code']:
-        return render_to_response('login.jade', 
+        return render_to_response('home.jade', 
                                  {'message': 'Error while login through facebook'},
                                  context_instance=RequestContext(request))
 
@@ -70,7 +70,7 @@ def facebook_login_callback(request):
     user_profile = json.load(urllib.urlopen("https://graph.facebook.com/me?" + \
                         urllib.urlencode(dict(access_token=access_token))))
     if not 'email' in user_profile.keys():
-        return render_to_response('login.jade', 
+        return render_to_response('home.jade', 
                                  {'message': 'Unable to fetch your facebook profile'},
                                  context_instance=RequestContext(request))
     custom_profile = {
@@ -85,7 +85,7 @@ def facebook_login_callback(request):
     if result:
         return redirect('/index')
     else:
-        return render_to_response('login.jade', 
+        return render_to_response('home.jade', 
                                  {'message': 'Error while creating User'},
                                  context_instance=RequestContext(request))   
 
@@ -112,7 +112,7 @@ def google_login_callback(request):
     parser = Http()
     login_failed_url = '/'
     if 'error' in request.GET or 'code' not in request.GET:
-        return render_to_response('login.jade', 
+        return render_to_response('home.jade', 
                                  {'message': 'Error while logging through Google'},
                                  context_instance=RequestContext(request))
     access_token_uri = 'https://accounts.google.com/o/oauth2/token'
@@ -140,7 +140,7 @@ def google_login_callback(request):
     if result:
         return redirect('/index')
     else:
-        return render_to_response('login.jade', 
+        return render_to_response('home.jade', 
                                  {'message': 'Error while creating User'},
                                  context_instance=RequestContext(request))   
 
