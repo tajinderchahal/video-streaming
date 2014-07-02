@@ -1,0 +1,59 @@
+extends "./layout.jade"
+
+block append css
+  style.
+    .btn-facebook{ background: #48649F;}
+    .btn-facebook:hover { background: #405A92;}
+    .sub-heading{
+      font-size: 2em;    
+    }
+    .upload_btn{ background: #d0d0d0; padding: 5px 10px 20px 10px; cursor: pointer; 
+       float: none !important; margin:0 auto !important;}
+    input[type="text"]{ height: 40px !important; padding-left: 10px; border-radius: 0px !important}
+    li{list-style-type: none;}
+    ul{ margin-bottom: 1px; font-size: 12px; color: red}
+
+
+block append body
+   .row-fluid
+     .span8.offset2.text-center(style="padding-top:90px;")
+         img(src="/static/img/shalent_logo.png")
+   
+   .row-fluid(style="padding-top:50px;")
+     .span12.text-center.sub-heading Upload your Talent Here !!!
+   br
+   .row-fluid
+     .span6.offset3
+       form.row-fluid(method="POST",action="/index",enctype="multipart/form-data")
+         .span12.text-center(style="padding:10px;")
+           #{form}
+           .row-fluid
+             .span6.upload_btn Choose File to Upload
+             span.file_name(style="position: relative;bottom: 22px;font-size: 12px;") No file choosen
+           .row-fluid
+             input.span6.btn.btn-large.btn-success(type="submit", value="Upload")
+
+block append js
+  script.
+    $(document).ready(function(){
+       $('label').remove();
+       $('#id_name').attr('placeholder','Your video title');
+       $('#id_name').addClass('span8');
+       $('#id_video_file').hide();
+       try{
+         if(#{upload_status}) {
+           alert('Congratulations !!! your video is successfully uploaded !!!');
+         }
+       } catch (err) {
+         console.log('no uploads');
+       }
+       $('.upload_btn').click(function(){
+          $('#id_video_file').click(); 
+       });
+       $('#id_video_file').change(function(e){
+             $('.file_name').html($(this).val());
+       });
+    });
+
+
+

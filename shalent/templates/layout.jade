@@ -1,0 +1,40 @@
+doctype 5
+html(lang="en")
+  head
+    title Shalent - Show your Talent
+    block css
+      link(href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css", rel="stylesheet")
+      style.
+        a{ outline: 0;}
+        .navbar .nav li.dropdown.open > .dropdown-toggle, 
+        .navbar .nav li.dropdown.active > .dropdown-toggle, 
+        .navbar .nav li.dropdown.open.active>.dropdown-toggle {
+            background: none;
+            color: #555555;
+        }
+      
+    block js
+      script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+      script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
+
+  body(style="font-family: sans-serif;")
+    .navbar.navbar-fixed-top
+      .navbar-inner(style="box-shadow: none;background: none; border-bottom: 0px;")
+        .container#header_container
+          button.btn.btn-navbar(type="button",data-toggle="collapse",data-target=".nav-collapse")
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          .nav-collapse.collapse.pull-right
+            ul.nav
+              {% if user.username %}
+              li.dropdown
+                a.dropdown-toggle(href="#",data-toggle="dropdown",style="color:#000") 
+                  | Hi, {{ user.first_name }}  
+                  i.icon-chevron-down
+                ul.dropdown-menu
+                  li: a(href="/auth/logout") Logout
+              {% endif %}
+   
+    .container
+      block body

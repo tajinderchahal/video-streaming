@@ -1,0 +1,33 @@
+extends "./layout.jade"
+
+block append css
+  style.
+    .btn-facebook{ background: #48649F;}
+    .btn-facebook:hover { background: #405A92;}
+    .sub-heading{
+      font-size: 2em;    
+    }
+
+block append body
+   .row-fluid
+     .span8.offset2.text-center(style="padding-top:90px;")
+         img(src="/static/img/shalent_logo.png")
+   
+   .row-fluid(style="padding-top:80px;")
+     .span12.text-center.sub-heading Launching Soon !!!
+   br
+   .row-fluid
+     .span12.text-center.text-error #{ message }
+   .row-fluid
+     .span6.offset3
+       .span6 
+         a.btn.btn-danger.btn-large.span12(href="/auth/google") Sign up with Google
+       .span6
+         a.btn.btn-primary.btn-facebook.btn-large.span12(href="/auth/facebook") Sign up with Facebook
+   br
+   .row-fluid
+     .span12.text-center.sub-heading &
+   br
+   .row-fluid
+     .span8.offset2
+       .span12.text-center.sub-heading Get rolling to Show your Talent 
