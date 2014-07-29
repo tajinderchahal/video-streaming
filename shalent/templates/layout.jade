@@ -6,11 +6,24 @@ html(lang="en")
       link(href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css", rel="stylesheet")
       style.
         a{ outline: 0;}
+        .navbar-inner{
+          box-shadow: 0 1px 10px rgba(0, 0, 0, 0.46) !important;
+          -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.46 !important);
+        }
         .navbar .nav li.dropdown.open > .dropdown-toggle, 
         .navbar .nav li.dropdown.active > .dropdown-toggle, 
         .navbar .nav li.dropdown.open.active>.dropdown-toggle {
             background: none;
             color: #555555;
+        }
+        .navbar .nav>li>a {
+            padding: 20px 15px 10px;
+        }
+        .shalent-logo{
+          position: relative; 
+          width: 125px;
+          top:3px; 
+          margin: 0 auto;
         }
       
     block js
@@ -18,8 +31,14 @@ html(lang="en")
       script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
 
   body(style="font-family: sans-serif;")
-    .navbar.navbar-fixed-top
-      .navbar-inner(style="box-shadow: none;background: none; border-bottom: 0px;")
+    .navbar.navbar-fixed-top(style="background: #fff;")
+      .left-pixel.pull-left(style="position: relative;")
+        img(src="/static/img/left-pixel.png", style="height: 70px;position: absolute;top: -2px;left: -1px;")
+      .right-pixel.pull-right(style="position: relative;")
+        img(src="/static/img/right-pixel.png", style="height: 68px;position: absolute;top: -2px;right: -1px;")
+      .shalent-logo
+        a(href="/"): img(src="/static/img/Logo.png", style="position: absolute")
+      .navbar-inner(style="background: none; border-bottom: 0px;height: 65px;")
         .container#header_container
           button.btn.btn-navbar(type="button",data-toggle="collapse",data-target=".nav-collapse")
             span.icon-bar
@@ -36,5 +55,9 @@ html(lang="en")
                   li: a(href="/auth/logout") Logout
               {% endif %}
    
-    .container
+    .container.text-center(style="margin-top:222px;")
       block body
+
+    .footer.row-fluid.text-center(style="padding: 25px 0px;margin-top:320px;")
+      a(href="/terms", title="Terms and Conditions") Terms & Conditions
+

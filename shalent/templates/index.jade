@@ -5,7 +5,7 @@ block append css
     .btn-facebook{ background: #48649F;}
     .btn-facebook:hover { background: #405A92;}
     .sub-heading{
-      font-size: 2em;    
+      font-size: 1.5em;    
     }
     .upload_btn{ background: #d0d0d0; padding: 5px 10px 20px 10px; cursor: pointer; 
        float: none !important; margin:0 auto !important;}
@@ -15,13 +15,20 @@ block append css
 
 
 block append body
-   .row-fluid
-     .span8.offset2.text-center(style="padding-top:90px;")
-         img(src="/static/img/shalent_logo.png")
-   
-   .row-fluid(style="padding-top:50px;")
-     .span12.text-center.sub-heading Upload your Talent Here !!!
+   .row-fluid(style="padding-top:150px;")
+      .row-fluid.Images
+        .span10.offset1
+          .span3.text-center
+            img(src="/static/img/Img1.png")
+          .span3.text-center
+            img(src="/static/img/Img2.png")
+          .span3.text-center
+            img(src="/static/img/Img3.png")
+          .span3.text-center
+            img(src="/static/img/Img4.png")
    br
+   .row-fluid
+     .span12.text-center.sub-heading Upload your Talent Here !!!
    .row-fluid
      .span6.offset3
        form.row-fluid(method="POST",action="/index",enctype="multipart/form-data")
@@ -31,7 +38,7 @@ block append body
              .span6.upload_btn Choose File to Upload
              span.file_name(style="position: relative;bottom: 22px;font-size: 12px;") No file choosen
            .row-fluid
-             input.span6.btn.btn-large.btn-success(type="submit", value="Upload")
+             input.span6.btn.btn-large.btn-success(type="submit", value="Upload", style="border-radius: 30px;")
 
 block append js
   script.
@@ -42,6 +49,7 @@ block append js
        $('#id_video_file').hide();
        try{
          if(#{upload_status}) {
+           $('#id_name').val('');
            alert('Congratulations !!! your video is successfully uploaded !!!');
          }
        } catch (err) {

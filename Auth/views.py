@@ -82,8 +82,12 @@ def facebook_login_callback(request):
     }
     print 'Facebook Auth: ', custom_profile
     result = create_user_from_social_auth(request, custom_profile)
-    if result:
-        return redirect('/index')
+    print "result",result
+    print result
+    if result == True:
+        return redirect('/index',{'custom_profile':custom_profile})
+    elif result == False:
+        return redirect('/new_user')
     else:
         return render_to_response('home.jade', 
                                  {'message': 'Error while creating User'},
@@ -137,8 +141,11 @@ def google_login_callback(request):
         'source': 'google'
     }
     result = create_user_from_social_auth(request, custom_profile)
-    if result:
+    print result
+    if result == True:
         return redirect('/index')
+    elif result == False:
+        return redirect('/new_user')
     else:
         return render_to_response('home.jade', 
                                  {'message': 'Error while creating User'},
@@ -162,7 +169,7 @@ def create_user_from_social_auth(request, user_profile):
         user.save()
         user.backend = 'django.contrib.auth.backends.ModelBackend'
         login(request, user)
-        return True
+        return False
     except Exception, e:
         print 'Error while creating user: ', str(e)
         return False

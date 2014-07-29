@@ -5,29 +5,35 @@ block append css
     .btn-facebook{ background: #48649F;}
     .btn-facebook:hover { background: #405A92;}
     .sub-heading{
-      font-size: 2em;    
+      margin-bottom: 10px;
     }
+    .Images > div > div{margin-bottom: 10px;}
+    .Images img{ height: 270px; !important}
 
 block append body
-   .row-fluid
-     .span8.offset2.text-center(style="padding-top:90px;")
-         img(src="/static/img/shalent_logo.png")
-   
-   .row-fluid(style="padding-top:80px;")
-     .span12.text-center.sub-heading Launching Soon !!!
-   br
-   .row-fluid
-     .span12.text-center.text-error #{ message }
+   .row-fluid(style="padding-top:150px;")
+     .span12.text-center.sub-heading
+        img(src="/static/img/Text1.png", style="height: 20px;")
+   .row-fluid.Images
+     .span10.offset1
+         .span3.text-center
+           img(src="/static/img/Img1.png")
+         .span3.text-center
+           img(src="/static/img/Img2.png")
+         .span3.text-center
+           img(src="/static/img/Img3.png")
+         .span3.text-center
+           img(src="/static/img/Img4.png")
+
+   .row-fluid.text-center(style="margin: 10px 0px;")
+     img(src="/static/img/Text3.png", style="height: 30px;")
+   .row-fluid.text-center(style="margin: 10px 0px;")
+     img(src="/static/img/Text4.png", style="height: 55px;")
+
+
    .row-fluid
      .span6.offset3
-       .span6 
-         a.btn.btn-danger.btn-large.span12(href="/auth/google") Sign up with Google
-       .span6
-         a.btn.btn-primary.btn-facebook.btn-large.span12(href="/auth/facebook") Sign up with Facebook
-   br
-   .row-fluid
-     .span12.text-center.sub-heading &
-   br
-   .row-fluid
-     .span8.offset2
-       .span12.text-center.sub-heading Get rolling to Show your Talent 
+       .span6(style="margin-bottom: 10px;") 
+         a.btn.btn-danger.btn-large.span12(href="/auth/google", style="border-radius: 25px;") Sign up with Google
+       .span6(style="margin-bottom: 10px;")
+         a.btn.btn-primary.btn-facebook.btn-large.span12(href="/auth/facebook", style="border-radius: 25px;") Sign up with Facebook

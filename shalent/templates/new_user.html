@@ -1,0 +1,55 @@
+{% extends "layout.jade" %}
+{% block header %}
+  <!-- <link href="//getbootstrap.com/2.3.2/assets/css/docs.css" rel="stylesheet"> -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <style>
+
+  </style>
+{% endblock header %}
+{% block body %}
+    <div style="padding-top:220px;text-align:center;">
+        <form id ="form_id" action="/new_user"  method="POST">
+            <select id ="select_id" name="usercategory">
+                <option value="V">Viewer</option>
+                <option value="A">Artist</option>
+                <option value="C">Curator</option>
+                <option value="M">Manager</option>
+            </select>
+            <select name ="category_type" class="sub" id="subid">
+                {% for x in category_types %}
+                    <option value="{{ x.id }}">{{x.category_type}}</option>
+         	{% endfor %}
+
+            </select>
+            <input type="submit" name ="abc" value="Submit" style="margin-top: -12px;">
+        </form>
+    </div>
+
+<script type="text/javascript">
+     $(document).ready(function () {
+
+         var sub = $('select.sub');
+         sub.hide();
+
+         $('select#select_id').change(function () {
+         var category = $('#select_id').val();
+         var second_select = $("select.sub");
+
+         if (category == 'A') {
+             $.getJSON("/get_category/all_category",{}, function (result) {
+                 for (i = 0; i < result.length; i++) {
+                     var city_option = '<option value="' + result[i]['id'] + '">' + result[i]['category_type'] + '</option>';
+                     second_select.append(city_option);
+                 }
+                 second_select.show();
+             });
+         }
+         else{
+            second_select.hide();
+         }
+
+         });
+
+     });
+</script>
+{% endblock %}
