@@ -57,10 +57,12 @@ def new_user(request,*args,**kwargs):
     if request.method == 'POST':
         user = UserProfile.objects.get(id=request.user.id)
         user.user_type=request.POST['usercategory'] if 'usercategory' in request.POST else 'V'
+        user.art_category_id = request.POST['category_type'] if 'usercategory' in request.POST and\
+            request.POST['usercategory'] == 'A' else None
         user.save()
         return redirect('/index')
-    category_types = list(ArtCategory.objects.all())
-    return render(request,"new_user.html", {'category_types':category_types})
+    category_types = list(ArtCategory.objects.all().values())
+    return render(request,"new_user.html", {'art_category':category_types})
 
 def get_category(request, *args, **kwargs):
     categories = list(ArtCategory.objects.all().order_by('category').values('id','category'))
