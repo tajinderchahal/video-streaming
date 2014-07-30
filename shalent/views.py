@@ -5,9 +5,9 @@ from shalent.forms import VideoUploadForm
 from settings import FILE_UPLOAD_MAX_MEMORY_SIZE
 from django.forms.util import ErrorList
 from django.contrib.auth.decorators import login_required
-from Auth.models import UserProfile
+from Auth.models import UserProfile,ArtCategory
 import json
-from shalent.models import UploadedVideo,UserProfile,UserType,UserCategory,MasterUserCategory
+from shalent.models import UploadedVideo,UserProfile
 
 # Create your views here.
 
@@ -55,20 +55,14 @@ def index(request, *args, **kwargs):
 
 def new_user(request,*args,**kwargs):
     if request.method == 'POST':
-        master_obj =MasterUserCategory()
-        master_obj.user_category_id=request.POST['usercategory']
-        master_obj.user_profile_id=request.user.id
-        master_obj.save()
-        if 'abc' in request.POST:
-            print "within submit button"
-            return redirect('/index')
-    user_types=list(UserType.objects.all())
-    category_types = list(UserCategory.objects.all())
-
-    return render(request,"new_user.html", {'user_types':user_types,'category_types':category_types})
+        user = UserProfile.objects.get(id=request.user.id)
+        user.user_type=request.POST['usercategory'] if 'usercategory' in request.POST else 'V'
+        user.save()
+        return redirect('/index')
+    category_types = list(ArtCategory.objects.all())
+    return render(request,"new_user.html", {'category_types':category_types})
 
 def get_category(request, *args, **kwargs):
-
-    categories = list(UserCategory.objects.filter(category_type = kwargs['category_id']).order_by('category_type').values('id','category_type'))
+    categories = list(ArtCategory.objects.all().order_by('category').values('id','category'))
     json_models = json.dumps(categories)
     return HttpResponse(json_models, mimetype="application/javascript")

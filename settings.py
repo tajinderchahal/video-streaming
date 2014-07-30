@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-SITE_URL = 'http://localhost:7000'
+SITE_URL = 'http://localhost:8000'
 # SITE_URL = 'http://localhost:8000'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
 
@@ -121,10 +121,10 @@ STATIC_URL = '/static/'
 GOOGLE_CLIENT_ID = '375747460177-v3asfjckgb36231jn71ercm1p6kd956r.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = 'gBh5-qTnBy1L8UGrE9eIbUFJ'
 
-FACEBOOK_APP_ID = '480754732058916'
-FACEBOOK_APP_SECRET = 'ba7af5772d1507cca8fe4cd11ae58582'
-# FACEBOOK_APP_ID = '523499947773524'
-# FACEBOOK_APP_SECRET = 'cde0f986b5ade4804f50caf0433d55c5'
+#FACEBOOK_APP_ID = '480754732058916'
+#FACEBOOK_APP_SECRET = 'ba7af5772d1507cca8fe4cd11ae58582'
+FACEBOOK_APP_ID = '523499947773524'
+FACEBOOK_APP_SECRET = 'cde0f986b5ade4804f50caf0433d55c5'
 FACEBOOK_APP_SCOPE = 'email,user_photos,user_videos,user_birthday'
 
 LOGIN_URL = '/'
