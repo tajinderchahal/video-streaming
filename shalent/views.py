@@ -107,3 +107,4 @@ def get_category(request):
     categories = list(ArtCategory.objects.all().order_by('category').values('id','category'))
     json_models = json.dumps(categories)
     return HttpResponse(json_models, mimetype="application/javascript")
+
