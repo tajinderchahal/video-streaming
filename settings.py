@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'shalent',
-        'USER': 'shalent',
-        'PASSWORD': 'shalent',
+        'USER': 'postgres',
+        'PASSWORD': 'checkinfast',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -123,8 +123,10 @@ GOOGLE_CLIENT_SECRET = 'gBh5-qTnBy1L8UGrE9eIbUFJ'
 
 #FACEBOOK_APP_ID = '480754732058916'
 #FACEBOOK_APP_SECRET = 'ba7af5772d1507cca8fe4cd11ae58582'
-FACEBOOK_APP_ID = '313925608776105'
-FACEBOOK_APP_SECRET = '908eac0c74b591ca2e63b78d4adf773f'
+# FACEBOOK_APP_ID = '313925608776105'
+# FACEBOOK_APP_SECRET = '908eac0c74b591ca2e63b78d4adf773f'
+FACEBOOK_APP_ID = '523499947773524'
+FACEBOOK_APP_SECRET = 'cde0f986b5ade4804f50caf0433d55c5'
 FACEBOOK_APP_SCOPE = 'email,user_photos,user_videos,user_birthday'
 
 LOGIN_URL = '/'

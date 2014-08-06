@@ -65,7 +65,8 @@ def facebook_login_callback(request):
                                  context_instance=RequestContext(request))
 
     response = cgi.parse_qs(urllib.urlopen( "https://graph.facebook.com/oauth/access_token?" +\
-                             urllib.urlencode(params)).read()) 
+                             urllib.urlencode(params)).read())
+    print response
     access_token = response["access_token"][-1]
     user_profile = json.load(urllib.urlopen("https://graph.facebook.com/me?" + \
                         urllib.urlencode(dict(access_token=access_token))))

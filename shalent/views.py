@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from Auth.models import UserProfile,ArtCategory
 import json
 from shalent.models import UploadedVideo,UserProfile
+from Auth.models import RendezvousUser
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ def terms(request):
 def index(request, *args, **kwargs):
     print 'kwrg',kwargs
     if request.method == 'POST':
-        print request.POST
+        print "request.post",request.POST
         form = VideoUploadForm(request.POST, request.FILES)
         if 'video_file' in request.FILES:
             is_video = request.FILES['video_file'].content_type.split('/')[0] == 'video' 
@@ -40,16 +41,24 @@ def index(request, *args, **kwargs):
                 'size': video_size,
                 'video_file': form.cleaned_data['video_file']})
             uvideo.save()
+            obj = RendezvousUser()
+            obj.user_profile=user_profile
+            code =request.POST.get('code')
+            obj.user_code=code
+            obj.save()
             return render(request, 
-                          'index.jade', 
-                          {'form': form, 
+                          'index.jade',
+                          {'form': form,
+                           'code': code,
                            'upload_status': 1 },
                             context_instance = RequestContext(request))
     else:
         form = VideoUploadForm()
+
     return render(request, 
-                  'index.jade', 
-                  {'form': form , 
+                  'index.jade',
+                  {'form': form ,
+                   'code': 0,
                    'upload_status': 0},
                   context_instance = RequestContext(request))
 
@@ -68,3 +77,6 @@ def get_category(request, *args, **kwargs):
     categories = list(ArtCategory.objects.all().order_by('category').values('id','category'))
     json_models = json.dumps(categories)
     return HttpResponse(json_models, mimetype="application/javascript")
+
+def test(request):
+    return render(request,"index1.html")

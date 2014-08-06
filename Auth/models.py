@@ -10,3 +10,7 @@ class UserProfile(User):
     # V for viewer, M for manager, A for artist, C for curator
     user_type = models.CharField(max_length=1)
     art_category = models.ForeignKey(ArtCategory, null=True, blank=True)
+
+class RendezvousUser(models.Model):
+    user_profile = models.ForeignKey(UserProfile, null=True, blank=True)
+    user_code = models.IntegerField(null=True, blank=True)
