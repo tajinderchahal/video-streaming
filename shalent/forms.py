@@ -4,4 +4,4 @@ from shalent.models import UploadedVideo
 class VideoUploadForm(ModelForm):
     class Meta:
         model = UploadedVideo
-        fields = ['name','video_file']
+        fields = ['name','file_path']

@@ -2,7 +2,7 @@ from django.shortcuts import render, render_to_response,redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template import RequestContext
 from shalent.forms import VideoUploadForm
-from settings import FILE_UPLOAD_MAX_MEMORY_SIZE
+from settings import FILE_UPLOAD_VIDEO_SIZE, FILE_UPLOAD_IMAGE_SIZE
 from django.forms.util import ErrorList
 from django.contrib.auth.decorators import login_required
 from Auth.models import UserProfile,ArtCategory
@@ -20,32 +20,34 @@ def home(request):
 def terms(request):
     return render_to_response("terms.jade")
 
+"""
+Method for uploading video and 
+"""
 @login_required
-def index(request, *args, **kwargs):
-    print 'kwrg',kwargs
+def index(request):
+    code = rendezvous_user(request)  # creating rendezvous entry
     if request.method == 'POST':
-        print "request.post",request.POST
         form = VideoUploadForm(request.POST, request.FILES)
-        if 'video_file' in request.FILES:
-            is_video = request.FILES['video_file'].content_type.split('/')[0] == 'video' 
-            if is_video:
-                video_size = request.FILES['video_file']._size
-                if video_size > FILE_UPLOAD_MAX_MEMORY_SIZE:
-                    form.errors["video_file"] = ErrorList([u"File size cannot be more that 50 MB"])
+        if 'file_path' in request.FILES:
+            file_type = request.FILES['file_path'].content_type.split('/')[0]
+            file_size = request.FILES['file_path']._size
+            if file_type == 'video':
+                if file_size > FILE_UPLOAD_VIDEO_SIZE:
+                    form.errors["file_path"] = ErrorList([u"File size cannot be more that 50 MB"])
+            elif file_type == 'image':
+                if file_size > FILE_UPLOAD_IMAGE_SIZE:
+                    form.errors["file_path"] = ErrorList([u"File size cannot be more that 5 MB"])
             else:
-                form.errors["video_file"] = ErrorList([u"File type is not supported"])
+                form.errors["file_path"] = ErrorList([u"File type is not supported (only Image and Video)"])
+
         if form.is_valid():
             user_profile = UserProfile.objects.get(id= request.user.id)
             uvideo = UploadedVideo(**{'user': user_profile,
                 'name': form.cleaned_data['name'],
-                'size': video_size,
-                'video_file': form.cleaned_data['video_file']})
+                'size': file_size,
+                'file_type': file_type,
+                'file_path': form.cleaned_data['file_path']})
             uvideo.save()
-            obj = RendezvousUser()
-            obj.user_profile=user_profile
-            code =request.POST.get('code')
-            obj.user_code=code
-            obj.save()
             return render(request, 
                           'index.jade',
                           {'form': form,
@@ -57,26 +59,51 @@ def index(request, *args, **kwargs):
 
     return render(request, 
                   'index.jade',
-                  {'form': form ,
-                   'code': 0,
+                  {'form': form,
+                   'code': code,
                    'upload_status': 0},
                   context_instance = RequestContext(request))
 
-def new_user(request,*args,**kwargs):
+
+@login_required
+def rendezvous_user(request):
+    rend_user = RendezvousUser.objects.filter(user_profile_id = request.user.id)
+    code = 0
+    if not len(rend_user):
+        if 'code' in request.POST:
+            code = request.POST.get('code')
+            obj = RendezvousUser()
+            obj.user_profile_id = request.user.id
+            obj.user_code = code
+            obj.save()
+    else:
+        if 'code' in request.POST:
+            rend_user[0].user_code = request.POST.get('code')
+            rend_user[0].save()
+            code = request.POST.get('code')
+        else:
+            code = rend_user[0].user_code
+    return code
+
+
+def new_user(request):
     if request.method == 'POST':
         user = UserProfile.objects.get(id=request.user.id)
-        user.user_type=request.POST['usercategory'] if 'usercategory' in request.POST else 'V'
-        user.art_category_id = request.POST['category_type'] if 'usercategory' in request.POST and\
-            request.POST['usercategory'] == 'A' else None
+        user.user_type = request.POST['usercategory'] \
+            if 'usercategory' in request.POST else 'V'
+        user.art_category_id = request.POST['category_type'] \
+            if 'usercategory' in request.POST and \
+                request.POST['usercategory'] == 'A' else None
         user.save()
         return redirect('/index')
     category_types = list(ArtCategory.objects.all().values())
-    return render(request,"new_user.html", {'art_category':category_types})
+    return render(request,
+                  "new_user.jade", 
+                  {'art_category': category_types}, 
+                  context_instance = RequestContext(request))
 
-def get_category(request, *args, **kwargs):
+
+def get_category(request):
     categories = list(ArtCategory.objects.all().order_by('category').values('id','category'))
     json_models = json.dumps(categories)
     return HttpResponse(json_models, mimetype="application/javascript")
-
-def test(request):
-    return render(request,"index1.html")

@@ -1,0 +1,55 @@
+extends "./layout.jade"
+
+block append css
+  style.
+    select{ height: 40px !important; border-radius: 0 !important;}
+    red-border{ border-color: red;}
+
+block append js
+  script(type="text/javascript").
+     $(document).ready(function () {
+         $('select#select_id').change(function () {
+           var category = $('#select_id').val();
+           var second_select = $("#sub_div");
+           if (category == 'A') {
+             second_select.fadeIn();
+           }
+           else{
+             second_select.fadeOut();
+           }
+         });
+
+         $('form').submit(function(e){
+             var category = $('#select_id').val();
+             var sub_categ = $('#subid').val();
+             if( category == 'A' && !sub_categ){
+                 e.preventDefault()
+                 $('#subid').addClass('red-border');
+             }
+         });
+     });
+
+block body
+  .row-fluid(style="padding-top:200px;text-align:center;")
+    h2(style="color:rgb(92, 92, 156);") Tell us a little about yourself ...
+    br
+    form(id="form_id", action="/new_user", method="POST", style="text-align:center;")
+      .row-fluid
+        h3 I am
+      .row-fluid
+        select#select_id.span3(name="usercategory")
+          option(value="V") Viewer
+          option(value="A") Artist
+          option(value="C") Curator
+          option(value="M") Manager
+      .row-fluid#sub_div(style="display:none;")
+        h3 Choose Your Art Category
+        .row-fluid
+          select#subid.sub.span3(name="category_type")
+            option(value="") Select Category
+            {% for x in art_category %}
+            option(value="{{ x.id }}") {{ x.category }}
+            {% endfor %}
+      .row-fluid
+        br
+        input.btn.btn-inverse.btn-large(type="submit",value="Roll Me In")

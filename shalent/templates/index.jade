@@ -11,69 +11,43 @@ block append css
       input[type="text"]{ height: 40px !important; padding-left: 10px; border-radius: 0px !important}
       li{list-style-type: none;}
       ul{ margin-bottom: 1px; font-size: 12px; color: red}
+      .rend{ margin-left: 10px; margin-top: -6px;}
 block append body
     .row-fluid(style="padding-top:150px;")
-        .row-fluid.Images
-            .span10.offset1
-                .span3.text-center
-                    img(src="/static/img/Img1.png")
-                .span3.text-center
-                    img(src="/static/img/Img2.png")
-                .span3.text-center
-                    img(src="/static/img/Img3.png")
-                .span3.text-center
-                    img(src="/static/img/Img4.png")
+      .row-fluid.Images
+        .span10.offset1
+          .span3.text-center
+            img(src="/static/img/Img1.png")
+          .span3.text-center
+            img(src="/static/img/Img2.png")
+          .span3.text-center
+            img(src="/static/img/Img3.png")
+          .span3.text-center
+            img(src="/static/img/Img4.png")
     br
     .row-fluid
-         div.wrapper.text-center(style="padding:10px;")
-            h1 Are You Rendezvous User ?
+         row-fluid.wrapper.text-center(style="padding:10px;")
+            h2 Are You Rendezvous User ?
+            .row-fluid then, enter your registration code :
             br
-            span Enter The Code :
-            input(type="text", id="code-text", style="height: 22px !important;
-            padding-left: 10px;
-            width:80px;
-            border-radius: 0px !important;")
-            button.submit-btn(style="background: rgba(47, 172, 15, 0.91);
-            padding-bottom: 2px;
-            height: 30px;
-            width: 82px;
-            margin-bottom: 11px;
-            border-radius: 10px;border:none;outline:none") Submit
-            button.yes-btn(style="display: none;background: rgba(47, 172, 15, 0.91);
-            padding-bottom: 2px;
-            height: 30px;
-            width: 82px;
-            border:none;
-            outline:none;
-            margin-bottom: 11px;
-            border-radius: 10px;") Save
-            button.no-btn(style="display: none;background: rgba(47, 172, 15, 0.91);
-            padding-bottom: 2px;
-            height: 30px;
-            width: 82px;
-            border:none;
-            outline:none;
-            margin-bottom: 11px;
-            border-radius: 10px;") Cancel
-         div.result-show.text-center(style="padding:10px;display: none;")
-            span.result-value(style="background: rgba(47, 172, 15, 0.91);
-            padding: 9px 20px;
-            font-weight: bold;;
-            border-radius: 10px;")
-            button.change-btn(style="background: #016ABC;
-            padding-bottom: 2px;
-            height: 30px;
-            width: 82px;
-            border:none;
-            outline:none;
-            margin-bottom: 3px;
-            border-radius: 10px;") Change
+            .row-fluid
+              input.span3(type="text", id="code-text", placeholder="Your Rendezvous Code")
+              button.submit-btn.btn.btn-success.rend Save
+              button.no-btn.btn.btn-danger.rend Cancel
+            .row-fluid
+              a(href="//rendezvous-iitd.com/registration", target="_blank") don't have the code ?
+
+         .row-fluid.result-show.text-center(style="padding:10px;display: none;")
+            h4 
+              span Your Rendezvous registration code: 
+              span.result-value.text-info
+              button.change-btn.btn.btn-info.rend Change
+    hr
     .row-fluid
         .span12.text-center.sub-heading Upload your Talent Here !!!
     .row-fluid
         .span6.offset3
             form.row-fluid(method="POST",action="/index",enctype="multipart/form-data")
-
                 .span12.text-center(style="padding:10px;")
                     #{form}
                     input(type="hidden", name="code", value="", id="final-code")
@@ -82,86 +56,67 @@ block append body
                         span.file_name(style="position: relative;bottom: 22px;font-size: 12px;") No file choosen
                     .row-fluid
                         input.span6.btn.btn-large.btn-success(type="submit", value="Upload", style="border-radius: 30px;")
+
 block append js
     script.
       $(document).ready(function(){
          $('label').remove();
-         $('#id_name').attr('placeholder','Your video title');
+         $('#id_name').attr('placeholder','Your Talent title');
          $('#id_name').addClass('span8');
-         $('#id_video_file').hide();
+         $('#id_file_path').hide();
          try{
-           console.log(#{code});
            if(#{code}) {
              $(".wrapper").hide();
              $(".result-value").text(#{code});
              $(".result-show").fadeIn();
              $("#code-text").text(#{code});
              $(".change-btn").click(function() {
-                //alert("change")
-                //$(".result-show").hide();
-                console.log($("#code-text").val(#{code}));
                 $(".wrapper").fadeIn();
                 $(".submit-btn").hide();
-                $(".yes-btn").show();
                 $(".no-btn").show();
-       });
+             });
            }
          } catch (err) {
            console.log('not code show');
          }
          try{
            if(#{upload_status}) {
-              console.log(#{upload_status});
               $('#id_name').val('');
-              alert('Congratulations !!! your video is successfully uploaded !!!');
+              alert('Congratulations !!! your talent is successfully uploaded !!!');
            }
          } catch (err) {
            console.log('no uploads');
          }
+
          $('.upload_btn').click(function(){
-           $('#id_video_file').click();
+           $('#id_file_path').click();
          });
-         $('#id_video_file').change(function(e){
+         $('#id_file_path').change(function(e){
            $('.file_name').html($(this).val());
          });
 
          $(".submit-btn").click(function() {
-          var code = $("#code-text").val();
-          if(code != "")
-          {
-            $(".wrapper").hide();
-            $("#final-code").val(code);
-            $(".result-value").text(code);
-            $(".result-show").fadeIn();
-          }
-          else
-          {
-            alert("Please Enter any Code");
-          }
-           });
-       $(".change-btn").click(function() {
-         $(".result-show").hide();
-         $(".wrapper").fadeIn();
-         $(".submit-btn").hide();
-         $(".yes-btn").show();
-         $(".no-btn").show();
-       });
-       $(".yes-btn").click(function() {
-         var code = $("#code-text").val();
-         if(code != "")
-         {
+           var code = $("#code-text").val();
+           if(code != "") {
              $(".wrapper").hide();
              $("#final-code").val(code);
              $(".result-value").text(code);
              $(".result-show").fadeIn();
-         }
-         else
-         {
-             alert("Please Enter any Code");
-         }
+           } else {
+             alert("Please Enter Registration code received from Rendezvous");
+           }
+         });
+
+       $(".change-btn").click(function() {
+         $(".result-show").hide();
+         $(".wrapper").fadeIn();
+         $(".submit-btn").show();
+         $('#code-text').val($(".result-value").html());
+         $(".no-btn").show();
        });
-       $(".no-btn").click(function() {
-         $(".wrapper").hide();
-         $(".result-show").fadeIn();
+
+       $(".no-btn").click(function(){
+         $('#code-text').val('');
        });
+
       });

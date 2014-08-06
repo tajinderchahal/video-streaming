@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-SITE_URL = 'http://localhost:8000'
-# SITE_URL = 'http://localhost:8000'
-FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800
+#SITE_URL = 'http://localhost:8000' # for testing
+
+SITE_URL = 'http://shalent.com'
+FILE_UPLOAD_VIDEO_SIZE = 52428800
+FILE_UPLOAD_IMAGE_SIZE = 5428800
 
 
 # Quick-start development settings - unsuitable for production
@@ -92,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'shalent',
-        'USER': 'postgres',
-        'PASSWORD': 'checkinfast',
+        'USER': 'shalent',
+        'PASSWORD': 'shalent',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -118,15 +120,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# production api keys
 GOOGLE_CLIENT_ID = '375747460177-v3asfjckgb36231jn71ercm1p6kd956r.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = 'gBh5-qTnBy1L8UGrE9eIbUFJ'
 
-#FACEBOOK_APP_ID = '480754732058916'
-#FACEBOOK_APP_SECRET = 'ba7af5772d1507cca8fe4cd11ae58582'
-# FACEBOOK_APP_ID = '313925608776105'
-# FACEBOOK_APP_SECRET = '908eac0c74b591ca2e63b78d4adf773f'
-FACEBOOK_APP_ID = '523499947773524'
-FACEBOOK_APP_SECRET = 'cde0f986b5ade4804f50caf0433d55c5'
+FACEBOOK_APP_ID = '480754732058916'
+FACEBOOK_APP_SECRET = 'ba7af5772d1507cca8fe4cd11ae58582'
 FACEBOOK_APP_SCOPE = 'email,user_photos,user_videos,user_birthday'
+
+# test api 
+#FACEBOOK_APP_ID = '523499947773524'
+#FACEBOOK_APP_SECRET = 'cde0f986b5ade4804f50caf0433d55c5'
 
 LOGIN_URL = '/'

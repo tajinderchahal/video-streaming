@@ -13,4 +13,4 @@ class UserProfile(User):
 
 class RendezvousUser(models.Model):
     user_profile = models.ForeignKey(UserProfile, null=True, blank=True)
-    user_code = models.IntegerField(null=True, blank=True)
+    user_code = models.CharField(max_length=100, null=True, blank=True)
